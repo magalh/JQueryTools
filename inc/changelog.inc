@@ -38,7 +38,7 @@
   </li>
   <li>v1.3 - June 2014
       <ul>
-        <li>Adds support for the cgjs_require stuff in CGExtensions.</li>
+        <li>Adds support for the cgjs_require stuff in CMSMSExt.</li>
 	<li>Adds a new combobox plugin.</li>
 	<li>Adds jsviews plugin.</li>
       </ul>

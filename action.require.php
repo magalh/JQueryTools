@@ -1,8 +1,10 @@
 <?php
 #BEGIN_LICENSE
 #-------------------------------------------------------------------------
-# Module: JQueryTools (c) 2008 by Robert Campbell 
-#         (calguy1000@cmsmadesimple.org)
+# Module: JQueryTools
+# Authors: Magal Hezi, with CMS Made Simple Foundation able to assign new administrators.
+# Copyright: (C) 2022 Magal Hezi, h_magal@hotmail.com
+#            is a fork of: JQueryTools(c) 2006 by Robert Campbell (calguy1000@cmsmadesimple.org)
 #  A toolbox of conveniences to provide dynamic javascripty functionality
 #  for CMS modules and website designers.
 # 

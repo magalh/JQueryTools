@@ -1,8 +1,10 @@
 <?php
 #BEGIN_LICENSE
 #-------------------------------------------------------------------------
-# Module: JQueryTools (c) 2006 by Robert Campbell
-#         (calguy1000@cmsmadesimple.org)
+# Module: JQueryTools
+# Authors: Magal Hezi, with CMS Made Simple Foundation able to assign new administrators.
+# Copyright: (C) 2022 Magal Hezi, h_magal@hotmail.com
+#            is a fork of: JQueryTools(c) 2006 by Robert Campbell (calguy1000@cmsmadesimple.org)
 #  A toolbox of conveniences to provide dynamic javascripty functionality
 #  for CMS modules and website designers.
 #
@@ -35,23 +37,23 @@
 #-------------------------------------------------------------------------
 #END_LICENSE
 
-class JQueryTools extends CGExtensions
+class JQueryTools extends CMSMSExt
 {
   private $_required_libs;
 
   function GetName() { return 'JQueryTools'; }
   function GetFriendlyName() { return $this->Lang('friendlyname'); }
-  function GetVersion() { return '1.4.2'; }
-  function GetHelp() { return file_get_contents(__DIR__.'/help.inc'); }
-  function GetAuthor() { return 'calguy1000'; }
-  function GetAuthorEmail() { return 'calguy1000@cmsmadesimple.org'; }
-  function GetChangeLog() { return @file_get_contents(__DIR__.'/changelog.inc'); }
+  function GetVersion() { return '2.0'; }
+  function GetHelp() { return file_get_contents(__DIR__.'/inc/help.inc'); }
+  function GetAuthor() { return 'Magal Hezi'; }
+  function GetAuthorEmail() { return 'h_magal@hotmail.com'; }
+  function GetChangeLog() { return @file_get_contents(__DIR__.'/inc/changelog.inc'); }
   function IsPluginModule() { return true; }
   function HasAdmin() { return false; }
   function GetAdminSection() { return 'extensions'; }
   function GetAdminDescription() { return $this->Lang('moddescription'); }
   function VisibleToAdminUser() { return false; }
-  function GetDependencies() { return ['CGExtensions'=>'1.62.8']; }
+  function GetDependencies() { return ['CMSMSExt'=>'1.2.1']; }
   function MinimumCMSVersion() { return '2.2.9'; }
   function InstallPostMessage() { return $this->Lang('postinstall'); }
   function UninstallPostMessage() { return $this->Lang('postuninstall'); }
@@ -118,7 +120,7 @@ class JQueryTools extends CGExtensions
       $libraries = array();
       if( is_array($dirs) && count($dirs) ) {
 
-	  cms_utils::get_module('CGExtensions');
+	  cms_utils::get_module('CMSMSExt');
           foreach( $dirs as $dir ) {
               if( !is_dir($dir) ) continue;
               if( !is_file($dir.'/info.dat') ) continue;
@@ -127,7 +129,7 @@ class JQueryTools extends CGExtensions
               include($dir.'/info.dat');
 
               try {
-                  $loader = new \CGExtensions\jsloader\libdefn($name);
+                  $loader = new \CMSMSExt\jsloader\libdefn($name);
                   $loader->module = $this->GetName();
                   if( isset($info['js_nominify']) && $info['js_nominify'] ) $loader->js_nominify = 1;
                   if( isset($info['css_nominify']) && $info['css_nominify'] ) $loader->css_nominify = 1;
@@ -152,7 +154,7 @@ class JQueryTools extends CGExtensions
       }
 
       // now manually register some libraries.
-      $loader = new \CGExtensions\jsloader\libdefn('cg_datepicker');
+      $loader = new \CMSMSExt\jsloader\libdefn('xt_datepicker');
       $loader->callback = '\JQueryTools\datepicker_plugin::load';
       $this->get_jsloader()->register($loader, $force);
   }

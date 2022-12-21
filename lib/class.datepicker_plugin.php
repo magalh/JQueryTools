@@ -30,7 +30,7 @@ final class datepicker_plugin
 
     public static function load($libname)
     {
-        if( $libname != 'cg_datepicker' ) return;
+        if( $libname != 'xt_datepicker' ) return;
 
         // gotta return code
         $mod = \cms_utils::get_module('JQueryTools');
