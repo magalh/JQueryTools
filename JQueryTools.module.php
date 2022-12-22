@@ -37,31 +37,34 @@
 #-------------------------------------------------------------------------
 #END_LICENSE
 
-class JQueryTools extends CMSMSExt
+class JQueryTools extends CMSModule
 {
+
+  const MANAGE_PERM = 'manage_jquerytools';
+
   private $_required_libs;
 
-  function GetName() { return 'JQueryTools'; }
-  function GetFriendlyName() { return $this->Lang('friendlyname'); }
-  function GetVersion() { return '2.0'; }
-  function GetHelp() { return file_get_contents(__DIR__.'/inc/help.inc'); }
-  function GetAuthor() { return 'Magal Hezi'; }
-  function GetAuthorEmail() { return 'h_magal@hotmail.com'; }
-  function GetChangeLog() { return @file_get_contents(__DIR__.'/inc/changelog.inc'); }
-  function IsPluginModule() { return true; }
-  function HasAdmin() { return false; }
-  function GetAdminSection() { return 'extensions'; }
-  function GetAdminDescription() { return $this->Lang('moddescription'); }
-  function VisibleToAdminUser() { return false; }
-  function GetDependencies() { return ['CMSMSExt'=>'1.2.1']; }
-  function MinimumCMSVersion() { return '2.2.9'; }
-  function InstallPostMessage() { return $this->Lang('postinstall'); }
-  function UninstallPostMessage() { return $this->Lang('postuninstall'); }
-  function UninstallPreMessage() { return $this->Lang('preuninstall'); }
-  function AllowAutoInstall() { return FALSE; }
-  function AllowAutoUpgrade() { return FALSE; }
+  public function GetName() { return 'JQueryTools'; }
+  public function GetFriendlyName() { return $this->Lang('friendlyname'); }
+  public function GetVersion() { return '2.0'; }
+  public function GetHelp() { return file_get_contents(__DIR__.'/inc/help.inc'); }
+  public function GetAuthor() { return 'Magal Hezi'; }
+  public function GetAuthorEmail() { return 'h_magal@hotmail.com'; }
+  public function GetChangeLog() { return @file_get_contents(__DIR__.'/inc/changelog.inc'); }
+  public function IsPluginModule() { return true; }
+  public function HasAdmin() { return false; }
+  public function GetAdminSection() { return 'extensions'; }
+  public function GetAdminDescription() { return $this->Lang('moddescription'); }
+  public function VisibleToAdminUser() { return $this->CheckPermission(self::MANAGE_PERM); }
+  public function GetDependencies() { return ['CMSMSExt'=>'1.2.1']; }
+  public function MinimumCMSVersion() { return '2.2.9'; }
+  public function InstallPostMessage() { return $this->Lang('postinstall'); }
+  public function UninstallPostMessage() { return $this->Lang('postuninstall'); }
+  public function UninstallPreMessage() { return $this->Lang('preuninstall'); }
+  public function AllowAutoInstall() { return FALSE; }
+  public function AllowAutoUpgrade() { return FALSE; }
 
-  function InitializeFrontend()
+  public function InitializeFrontend()
   {
     $this->RestrictUnknownParams();
     $this->RegisterModulePlugin();
@@ -74,7 +77,7 @@ class JQueryTools extends CMSMSExt
     $this->SetParameterType('lib',CLEAN_STRING);
   }
 
-  function InitializeAdmin()
+  public function InitializeAdmin()
   {
     $this->RegisterModulePlugin();
     $this->CreateParameter('action',null,$this->Lang('param_action'));
@@ -120,7 +123,8 @@ class JQueryTools extends CMSMSExt
       $libraries = array();
       if( is_array($dirs) && count($dirs) ) {
 
-	  cms_utils::get_module('CMSMSExt');
+	  //cms_utils::get_module('CMSMSExt');
+      $cge = cms_utils::get_module('CMSMSExt');
           foreach( $dirs as $dir ) {
               if( !is_dir($dir) ) continue;
               if( !is_file($dir.'/info.dat') ) continue;
@@ -143,7 +147,7 @@ class JQueryTools extends CMSMSExt
                       $loader->cssfile = $_torelpath($tmp);
                   }
                   if( isset($info['depends']) ) $loader->depends = $info['depends'];
-                  $this->get_jsloader()->register($loader, $force);
+                  $cge->get_jsloader()->register($loader, $force);
               }
               catch( \Exception $e ) {
                   debug_display($e->GetMessage());
@@ -154,9 +158,10 @@ class JQueryTools extends CMSMSExt
       }
 
       // now manually register some libraries.
+      $cge = cms_utils::get_module('CMSMSExt');
       $loader = new \CMSMSExt\jsloader\libdefn('xt_datepicker');
       $loader->callback = '\JQueryTools\datepicker_plugin::load';
-      $this->get_jsloader()->register($loader, $force);
+      $cge->get_jsloader()->register($loader, $force);
   }
 } // class
 
